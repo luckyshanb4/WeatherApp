@@ -6,7 +6,7 @@ const bodyparser = require('body-parser');
 
 const User = require("../models/userDb");
 const auth = require("../middleware/auth");
-const weatherDB= require("../models/weatherDb");
+const dbOperations =require('../models/weatherDb');
 
 const app = express();
 app.use(bodyparser.json());
@@ -102,8 +102,19 @@ app.post("/login", async (req, res) => {
 
 //after authentication, acces to weather data
 app.get("/weatherdata", auth, (req, res) => {
-  res.status(200).send(weatherDB.getData());
-});
+   
+      const get=async() => {
+        try {
+          const data = await dbOperations.getModel.find({}).exec();        
+          return res.status(200).send(JSON.stringify(data));
+        } catch (err) {
+          return 'error occured';
+        }
+      }
+      get();
+
+})
+
 
 
 

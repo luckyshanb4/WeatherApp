@@ -8,8 +8,8 @@ const weatherSchema = new mongoose.Schema ({
     dateTime:String,
     humidity:Number,
     temperature:Number,
-    min_tenperature:Number,
-    max_tenperature:Number
+    min_temperature:Number,
+    max_temperature:Number
     
   });
 
@@ -22,18 +22,12 @@ const weatherSchema = new mongoose.Schema ({
         dateTime:new Date().toLocaleString(),
         humidity:data.humidity,
         temperature:data.temperature,
-        min_tenperature:data.min_tenperature,
-        max_tenperature:data.max_tenperature
+        min_temperature:data.min_temperature,
+        max_temperature:data.max_temperature
       });
   
       //save new weather data
       newData.save();
     },
-    getData: async()=> {
-      // Empty `filter` means "match all documents"
-      const filter = {};
-      const all = await WeatherData.find(filter);
-      console.log(all);
-      return all;
-    },
+    getModel:WeatherData
 };
