@@ -6,6 +6,7 @@ const bodyparser = require('body-parser');
 
 const User = require("../models/userDb");
 const auth = require("../middleware/auth");
+const weatherDB= require("../models/weatherDb");
 
 const app = express();
 app.use(bodyparser.json());
@@ -17,8 +18,6 @@ app.post("/register", async (req, res) => {
   try {
     // Get user input
     const { email, password } = req.body;
-
-    console.log(req.body);
 
     // Validate user input
     if (!(email && password )) {
@@ -52,6 +51,7 @@ app.post("/register", async (req, res) => {
     );
     // save user token
     user.token = token;
+    user.save();
 
     // return new user
     res.status(201).json(user);
@@ -62,7 +62,6 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   try {
-    console.log(req.body);
     // Get user input
     const { email, password } = req.body;
 
@@ -87,18 +86,23 @@ app.post("/login", async (req, res) => {
 
       // save user token
       user.token = token;
+      user.save();
 
       // user
       res.status(200).json(user);
     }
+  else{
     res.status(400).send("Invalid Credentials");
+  }
+    
   } catch (err) {
     console.log(err);
   }
 });
 
-app.get("/welcome", auth, (req, res) => {
-  res.status(200).send("Welcome ");
+//after authentication, acces to weather data
+app.get("/weatherdata", auth, (req, res) => {
+  res.status(200).send(weatherDB.getData());
 });
 
 

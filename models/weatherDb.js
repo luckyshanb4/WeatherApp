@@ -1,8 +1,9 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/weatherDB", {useNewUrlParser: true});
+mongoose.connect(process.env.DB_PATH, {useNewUrlParser: true});
 
-
+//weather schema
 const weatherSchema = new mongoose.Schema ({
     dateTime:String,
     humidity:Number,
@@ -25,7 +26,14 @@ const weatherSchema = new mongoose.Schema ({
         max_tenperature:data.max_tenperature
       });
   
+      //save new weather data
       newData.save();
     },
-    // otherMethod: function() {},
+    getData: async()=> {
+      // Empty `filter` means "match all documents"
+      const filter = {};
+      const all = await WeatherData.find(filter);
+      console.log(all);
+      return all;
+    },
 };

@@ -2,7 +2,7 @@ const express = require("express");
 const process=require('./models/weatherHandle')
 const app = express();
 
-const userRoute=require('./controllers/controller')
+const userRoute=require('./controllers/routeManager')
 
 process.setInterval;
 

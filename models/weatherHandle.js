@@ -1,12 +1,11 @@
-const express = require("express");
 const axios = require('axios');
 const dbOperations =require("./weatherDb");
 
      function getData() {      
             axios.get("http://localhost:5000/",  { crossdomain: true }).then(response => {         
                 let weather = response.data;
-                console.log(weather);
-
+               
+                //add to weather db
                 dbOperations.addData(weather);
                           
               }) .catch(function (error) {
@@ -16,7 +15,5 @@ const dbOperations =require("./weatherDb");
       }
       
       setInterval(getData, 10000);
-      
-
     module.exports = setInterval;
     
